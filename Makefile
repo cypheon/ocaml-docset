@@ -1,18 +1,46 @@
-ROOT=ocaml-unofficial.docset
-CONTENTS=$(ROOT)/Contents/Resources/Documents
-ORIGINAL_DOC=files/ocaml-4.09-refman-html.tar.gz
-BUILD=_build
+TARGET = target
+DOCSET_NAME = ocaml-unofficial
+ORIGONAL_DOC_URL = https://caml.inria.fr/distrib/ocaml-4.09/ocaml-4.09-refman-html.tar.gz
 
-all: extract copy
+ORIGINAL_DOC = files/ocaml-4.09-refman-html.tar.gz
+ROOT = $(TARGET)/$(DOCSET_NAME).docset
+RESOURCES = $(ROOT)/Contents/Resources
+CONTENTS = $(RESOURCES)/Documents
+
+all: docset
+docset: mkindex extra-files
 
 $(CONTENTS):
 	mkdir -p $@
 
-extract:
-	mkdir -p $(BUILD)/source
-	tar xf $(ORIGINAL_DOC) -C $(BUILD)/source
+download: $(ORIGINAL_DOC)
+
+$(ORIGINAL_DOC):
+	mkdir -p files
+	curl -L -o "$@" "$(ORIGONAL_DOC_URL)"
+
+extract: $(ORIGINAL_DOC)
+	mkdir -p $(TARGET)/source
+	tar xf $(ORIGINAL_DOC) -C $(TARGET)/source
 
 copy: extract $(CONTENTS)
-	cp -av $(BUILD)/source/htmlman/. $(CONTENTS)
+	mkdir -p $(CONTENTS)
+	cp -a $(TARGET)/source/htmlman $(CONTENTS)
 
-.PHONY: extract
+mkindex: copy
+	pipenv run ./mkindex.py $(TARGET)/source $(RESOURCES)
+
+extra-files:
+	cp Info.plist $(ROOT)/Contents/
+
+clean-target:
+	rm -rf $(TARGET)
+
+clean: clean-target
+	@echo "Removing only generated files"
+	@echo "Run 'make clean-all' to remove downloaded files as well."
+
+clean-all: clean-target
+	rm -rf files
+
+.PHONY: all clean clean-all clean-target copy docset download extra-files extract mkindex
