@@ -3,11 +3,12 @@ DOCSET_NAME = ocaml-unofficial
 ORIGONAL_DOC_URL = https://caml.inria.fr/distrib/ocaml-4.09/ocaml-4.09-refman-html.tar.gz
 
 ORIGINAL_DOC = files/ocaml-4.09-refman-html.tar.gz
+TAR_NAME = $(TARGET)/ocaml-unofficial.tgz
 ROOT = $(TARGET)/$(DOCSET_NAME).docset
 RESOURCES = $(ROOT)/Contents/Resources
 CONTENTS = $(RESOURCES)/Documents
 
-all: docset
+all: docset $(TAR_NAME)
 docset: mkindex extra-files
 
 $(CONTENTS):
@@ -29,6 +30,9 @@ copy: extract $(CONTENTS)
 
 mkindex: copy
 	pipenv run ./mkindex.py $(TARGET)/source $(RESOURCES)
+
+$(TAR_NAME): docset
+	tar --exclude=.DS_Store -czf $@ -C $(TARGET) $(DOCSET_NAME).docset
 
 extra-files:
 	cp Info.plist $(ROOT)/Contents/
