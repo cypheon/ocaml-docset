@@ -1,6 +1,6 @@
 TARGET = target
 DOCSET_NAME = ocaml-unofficial
-ORIGONAL_DOC_URL = https://caml.inria.fr/distrib/ocaml-4.09/ocaml-4.09-refman-html.tar.gz
+ORIGINAL_DOC_URL = https://caml.inria.fr/distrib/ocaml-4.09/ocaml-4.09-refman-html.tar.gz
 
 ORIGINAL_DOC = files/ocaml-4.09-refman-html.tar.gz
 TAR_NAME = $(TARGET)/ocaml-unofficial.tgz
@@ -18,7 +18,7 @@ download: $(ORIGINAL_DOC)
 
 $(ORIGINAL_DOC):
 	mkdir -p files
-	curl -L -o "$@" "$(ORIGONAL_DOC_URL)"
+	curl -L -o "$@" "$(ORIGINAL_DOC_URL)"
 
 extract: $(ORIGINAL_DOC)
 	mkdir -p $(TARGET)/source
