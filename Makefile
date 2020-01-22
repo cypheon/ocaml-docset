@@ -1,8 +1,8 @@
 TARGET = target
 DOCSET_NAME = ocaml-unofficial
-ORIGINAL_DOC_URL = https://caml.inria.fr/distrib/ocaml-4.09/ocaml-4.09-refman-html.tar.gz
+ORIGINAL_DOC_URL = https://caml.inria.fr/distrib/ocaml-4.10/ocaml-4.10-refman-html.tar.gz
 
-ORIGINAL_DOC = files/ocaml-4.09-refman-html.tar.gz
+ORIGINAL_DOC = files/ocaml-4.10-refman-html.tar.gz
 TAR_NAME = $(TARGET)/ocaml-unofficial.tgz
 ROOT = $(TARGET)/$(DOCSET_NAME).docset
 RESOURCES = $(ROOT)/Contents/Resources
