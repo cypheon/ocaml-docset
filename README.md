@@ -9,3 +9,11 @@ Improvements over the original docset:
  * functions are tagged as "function" instead of "value"
  * "core" library indexed
  * some fixes for operator indexing
+
+## Building
+
+    pipenv install
+    make
+
+These commands will download the required reference manual file and create the
+output docset and tarball in the `./target/` subfolder.
